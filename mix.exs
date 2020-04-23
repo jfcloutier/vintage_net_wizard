@@ -55,8 +55,8 @@ defmodule VintageNetWizard.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      {:plug_cowboy, "~> 2.0"},
-      {:phoenix_html, "~> 2.13"},
+      {:plug_cowboy, "~> 2.1"},
+      {:phoenix_html, "~> 2.14"},
       {:jason, "~> 1.0"},
       {:vintage_net_wifi, "~> 0.7.0"},
       {:nerves_runtime, "~> 0.10"},
