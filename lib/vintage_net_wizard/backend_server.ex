@@ -96,9 +96,9 @@ defmodule VintageNetWizard.BackendServer do
   end
 
   @doc """
-  Save a `WiFiConfiguration` to the backend
+  Save a WiFi configuration to the backend
   """
-  @spec save(WiFiConfiguration.t()) :: :ok | {:error, any()}
+  @spec save(WiFiConfiguration.configuration()) :: :ok | {:error, any()}
   def save(config) do
     GenServer.call(__MODULE__, {:save, config})
   end
@@ -106,7 +106,7 @@ defmodule VintageNetWizard.BackendServer do
   @doc """
   Get a list of the current configurations
   """
-  @spec configurations() :: [WiFiConfiguration.t()]
+  @spec configurations() :: [WiFiConfiguration.configuration()]
   def configurations() do
     GenServer.call(__MODULE__, :configurations)
   end
@@ -225,7 +225,12 @@ defmodule VintageNetWizard.BackendServer do
   end
 
   def handle_call(:configurations, _from, %State{configurations: configs} = state) do
-    {:reply, build_config_list(configs), state}
+    cleaned_configs =
+      configs
+      |> build_config_list()
+      |> Enum.map(&clean_config/1)
+
+    {:reply, cleaned_configs, state}
   end
 
   def handle_call(
@@ -325,5 +330,9 @@ defmodule VintageNetWizard.BackendServer do
       |> elem(1)
 
     priority_index + 1
+  end
+
+  defp clean_config(config) do
+    Map.drop(config, [:psk, :password])
   end
 end

@@ -32,7 +32,7 @@ defmodule VintageNetWizard.Backend do
   @doc """
   Apply the WiFi configurations
   """
-  @callback apply([WiFiConfiguration.t()], state :: any()) ::
+  @callback apply([WiFiConfiguration.configuration()], state :: any()) ::
               {:ok, state :: any()} | {:error, :invalid_state}
 
   @doc """
@@ -69,5 +69,5 @@ defmodule VintageNetWizard.Backend do
   @doc """
   Perform final completion steps.
   """
-  @callback complete([WiFiConfiguration.t()], state :: any()) :: {:ok, state :: any()}
+  @callback complete([WiFiConfiguration.configuration()], state :: any()) :: {:ok, state :: any()}
 end
