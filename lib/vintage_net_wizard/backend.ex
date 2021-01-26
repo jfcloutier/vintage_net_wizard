@@ -11,7 +11,9 @@ defmodule VintageNetWizard.Backend do
 
   @type device_info_value() :: String.t()
 
-  @type opt() :: {:device_info, [{device_info_name(), device_info_value()}]}
+  @type opt() ::
+          {:device_info, [{device_info_name(), device_info_value()}]}
+          | {:configurations, [WiFiConfiguration.configuration()]}
 
   @type configuration_status() :: :not_configured | :good | :bad
 

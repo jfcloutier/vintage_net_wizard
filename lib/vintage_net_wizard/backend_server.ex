@@ -12,7 +12,7 @@ defmodule VintageNetWizard.BackendServer do
     defstruct subscriber: nil,
               backend: nil,
               backend_state: nil,
-              configurations: [],
+              configurations: %{},
               device_info: []
   end
 
@@ -146,9 +146,14 @@ defmodule VintageNetWizard.BackendServer do
   def init([backend, ifname, opts]) do
     device_info = Keyword.get(opts, :device_info, [])
 
+    configurations =
+      opts
+      |> Keyword.get(:configurations, [])
+      |> Enum.into(%{}, fn config -> {config.ssid, config} end)
+
     {:ok,
      %State{
-       configurations: %{},
+       configurations: configurations,
        backend: backend,
        backend_state: apply(backend, :init, [ifname]),
        device_info: device_info
